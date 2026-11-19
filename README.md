@@ -84,23 +84,4 @@ classDiagram
     RoomSearchViewModel --> Hotel
     RoomSearchViewModel --> Booking
     RoomCardViewModel --> Room
-    'BookingViewModel --> Booking'
-sequenceDiagram
-    participant Client
-    participant View as index.php
-    participant VM as BookingViewModel
-    participant SearchVM as RoomSearchViewModel
-    participant Model as Booking/Room
-
-    Client->>View: Want to book room 101
-    View->>VM: createBooking(room101, customer, "01.12", "05.12")
-    VM->>Model: new Booking()
-    Model-->>VM: ok
-    VM-->>View: Booking created
-    
-    Client->>View: Show available rooms
-    View->>SearchVM: findAvailableRooms("01.12", "05.12")
-    SearchVM->>Model: Check isRoomAvailable()
-    Model-->>SearchVM: Room 101 is busy
-    SearchVM-->>View: Return [102, 103]
-    View-->>Client: Show Lux and Family
+    BookingViewModel --> Booking
