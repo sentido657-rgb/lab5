@@ -32,7 +32,11 @@ index.php - сам сайт, который мы запускаем.
 Потом считает стоимость для номера 102.
 Показывает брони клиента.
 Потом мы отменяем бронь 101, и он снова становится свободным.
-## Диаграмма классов
+
+Как запустить
+Нужен PHP 8.1 или новее. Можно запустить через OpenServer или через терминал командой php -S localhost:8000.
+
+Диаграмма классов
 
 ```mermaid
 classDiagram
@@ -41,7 +45,6 @@ classDiagram
         +array rooms
         +addRoom(Room room)
     }
-
     class Room {
         +string id
         +string category
@@ -49,12 +52,10 @@ classDiagram
         +float pricePerNight
         +string description
     }
-
     class Customer {
         +string name
         +string email
     }
-
     class Booking {
         +string id
         +Room room
@@ -63,17 +64,14 @@ classDiagram
         +string checkOutDate
         +string status
     }
-
     class RoomCardViewModel {
         +calculateNights(string checkIn, string checkOut) int
         +calculateTotalCost(string checkIn, string checkOut) float
     }
-
     class RoomSearchViewModel {
         +isRoomAvailable(Room room, string checkIn, string checkOut) bool
         +findAvailableRooms(string checkIn, string checkOut) array
     }
-
     class BookingViewModel {
         +createBooking(Room room, Customer customer, string checkIn, string checkOut) Booking
         +cancelBooking(string bookingId) bool
@@ -87,30 +85,3 @@ classDiagram
     RoomSearchViewModel --> Booking
     RoomCardViewModel --> Room
     BookingViewModel --> Booking
-
-### 2. Диаграмма последовательности (как происходит бронирование)
-Добавь этот блок следом:
-
-```markdown
-## Диаграмма последовательности (Бронирование)
-
-```mermaid
-sequenceDiagram
-    participant Клиент
-    participant View as index.php
-    participant VM as BookingViewModel
-    participant SearchVM as RoomSearchViewModel
-    participant Model as Booking/Room
-
-    Клиент->>View: Хочу забронировать номер 101
-    View->>VM: createBooking(room101, customer, "01.12", "05.12")
-    VM->>Model: new Booking()
-    Model-->>VM: ok
-    VM-->>View: Бронь создана
-    
-    Клиент->>View: Покажи свободные номера
-    View->>SearchVM: findAvailableRooms("01.12", "05.12")
-    SearchVM->>Model: Проверка isRoomAvailable()
-    Model-->>SearchVM: Номер 101 занят
-    SearchVM-->>View: Возвращает [102, 103]
-    View-->>Клиент: Показывает Люкс и Семейный
